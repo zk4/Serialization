@@ -62,17 +62,24 @@ class Obj :public  ISerializable
 {
 
 public:
+vector<int> objs;
 	int a;
 	Obj(){}
-	Obj(int aa) :a(aa){}
+	Obj(int aa) :a(aa)   {
+	objs.push_back(1);
+	objs.push_back(2);
+	objs.push_back(3);
+}
 	  ostream& serialize(ostream& s)
 {
 		Serialize(s,a);
+		Serialize(s,objs);
 return s;
  }
 	  istream& deSerialize(istream& s) 
 {
 		  DeSerialize(s, a);
+		  DeSerialize(s, objs);
 return s;
 }
 	
