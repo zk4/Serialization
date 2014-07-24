@@ -223,8 +223,19 @@ void testPointerListPrimtives(list<T*> v)
 	 }
 }
 
+template <typename T1, typename T2>
+auto add(T1 t1, T2 t2) -> decltype(t1 + t2)
+{
+	static_assert(std::is_integral<T1>::value, "Type T1 must be integral");
+	static_assert(std::is_integral<T2>::value, "Type T2 must be integral");
+	static_assert(t1>66, "Type T2 must be integral");
+	return t1 + t2;
+}
+
+
 int main( )
 {
+	add(1 ,1);
  	testVectorPrimtives<bool>({ false, true,false });
 	testVectorPrimtives<int>({ 1,2, 3, 4 });
 	testVectorPrimtives<double>({ 1.3, 2.3, 3.3, 4.3 });
