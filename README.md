@@ -12,6 +12,13 @@ there are several lib out there support serialization,like protobuffer, boost:se
 
 *endian support
 
+*nesting container support
+``cpp
+vector<map<int, Obj*> >  
+vector<vector<string> >  
+vector<list<string> >  
+```
+
 
 use char instead bool in STL
 [why](http://stackoverflow.com/questions/15809157/why-is-the-size-of-stdvectorbool-16-byte)
