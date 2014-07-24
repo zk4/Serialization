@@ -4,6 +4,7 @@
 #include "serialization.h"
 #include <fstream>
 #include <sstream>
+ 
 using namespace std;
 static const  char * buffer_txt = "buffer.txt";
 
