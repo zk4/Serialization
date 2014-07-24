@@ -27,6 +27,8 @@ camke build process:
 	cd prj
 	cmake ..
 ```
+#usage
+#define CHECK_ENDIAN=1  if you wanna check endian
 
 #demo
 check testSerialization.cpp 

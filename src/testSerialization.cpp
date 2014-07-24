@@ -14,7 +14,7 @@ struct ss{
 };
 ostream& operator<< (ostream& o, ss& s)
 {
-	o << s.a << " " << s.b << "\n";
+ o << s.a << " " << s.b << "\n";
 return o;
 };
 
@@ -23,7 +23,7 @@ return o;
 template<typename T>
 void testVectorPrimtives(vector<T> v)
 {
-	cout << "-------------------------------\n";
+ 	cout << "-------------------------------\n";
 	 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
 	Serialize(file, v);
@@ -35,13 +35,15 @@ void testVectorPrimtives(vector<T> v)
 	DeSerialize(file2, a2);
 	 for (int i=0;i <a2.size(); ++i)
 	 {
-		 cout << a2[i] << "\n";
+	 	 
 	 }
 }
  
+
+ 
 void testString(string s)
 {
-	cout << "string-------------------------------\n";
+	 cout << "string-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
 	Serialize(file, s);
@@ -52,7 +54,7 @@ void testString(string s)
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
 	DeSerialize(file2, s2);
 	 
-		cout <<s2<< "\n";
+	 	cout <<s2<< "\n";
  
 }
 
@@ -79,13 +81,13 @@ return s;
 ostream& operator<< (ostream& o, Obj& s)
 {
 	 
-	o << s.a  ;
+ 	o << s.a  ;
 	return o;
 };
 
 void testMapPoinritPrimtives(map<int, Obj*> v)
 {
-	cout << "-------------------------------\n";
+ 	cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
 	Serialize(file, v);
@@ -95,16 +97,16 @@ void testMapPoinritPrimtives(map<int, Obj*> v)
 	map<int, Obj*>   a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
 	DeSerialize(file2, a2);
-	for (auto a :a2)
+	 for (auto a :a2)
 	{
 		cout << a.first << " " << ((a.second)?a.second->a:0 )<< "\n";
-	}
+	} 
 }
 
 template<typename K, typename  V>
 void testMapPrimtives(map<K, V> v)
 {
-	cout << "-------------------------------\n";
+	 cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
 	Serialize(file, v);
@@ -114,16 +116,16 @@ void testMapPrimtives(map<K, V> v)
 	map<K, V>   a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
 	DeSerialize(file2, a2);
-	for (auto a : a2)
-	{
-		cout << a.first << " " <<  (a.second)  << "\n";
-	}
+	 for (auto a : a2)
+	 {
+	 	cout << a.first << " " <<  (a.second)  << "\n";
+	 }
 }
 
 template<typename K>
 void testSetPrimtives(set<K> v)
 {
-	cout << "-------------------------------\n";
+	 cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
 	Serialize(file, v);
@@ -133,16 +135,16 @@ void testSetPrimtives(set<K> v)
 	set<K>  a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
 	DeSerialize(file2, a2);
-	for (auto a : a2)
-	{
-		cout << a << "\n";
-	}
+	 for (auto a : a2)
+	 {
+	 	cout << a << "\n";
+	 }
 }
 
 
 void testVectorPointPrimtives(vector<Obj*> v)
 {
-	cout << "-------------------------------\n";
+ 	cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
 	Serialize (file, v);
@@ -152,17 +154,17 @@ void testVectorPointPrimtives(vector<Obj*> v)
 	vector<Obj*>  a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
 	DeSerialize (file2, a2);
-	for (int i = 0; i < a2.size(); ++i)
+	 for (int i = 0; i < a2.size(); ++i)
 	{
 	 
-	}
+	} 
 }
 
 
 template<typename T>
 void testListPrimtives(list<T> v)
 {
-	cout << "-------------------------------\n";
+  	cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
 	Serialize(file, v);
@@ -172,17 +174,17 @@ void testListPrimtives(list<T> v)
 	list<T>  a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
 	DeSerialize(file2, a2);
-	for (auto a : a2)
+	 for (auto a : a2)
 	{
 
 		cout << a   ;
-	}
+	} 
 }
 
 template<typename T>
 void testPointerListPrimtives(list<T*> v)
 {
-	cout << "-------------------------------\n";
+ 	cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
 	Serialize(file, v);
@@ -192,13 +194,13 @@ void testPointerListPrimtives(list<T*> v)
 	list<T*>  a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
 	DeSerialize(file2, a2);
-	for (auto a : a2)
-	{
-		if (a)
-		cout << *a << "\n";
-		else 
-		cout << "NULL\n";
-	}
+	 for (auto a : a2)
+	 {
+	 	if (a)
+	 	cout << *a << "\n";
+	 	else 
+	 	cout << "NULL\n";
+	 }
 }
 
 int main( )
@@ -291,6 +293,14 @@ int main( )
 	objs.push_back(new Obj(22));
 	objs.push_back(NULL);
 	testPointerListPrimtives(objs);
+
+
+
+	{
+	vector<map<int, Obj*> >  intss = { { { 1, new Obj(3) }, { 4, new Obj(4) } }, { { 2, new Obj(3) }, { 4, new Obj(6) } } };
+	testVectorPrimtives(intss);
+
+	}
 	getchar();
 	return 0;
 }
