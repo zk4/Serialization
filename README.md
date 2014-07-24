@@ -35,7 +35,7 @@ camke build process:
 	cmake ..
 ```
 #usage
-#define CHECK_ENDIAN=1  if you wanna check endian
+define CHECK_ENDIAN=1  if you wanna check endian
 
 #demo
 check testSerialization.cpp 
