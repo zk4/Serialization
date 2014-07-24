@@ -1,7 +1,7 @@
 #ONLY HEADER required.
 
 #A lite serialization solution
-	there are several lib out there support serialization,like protobuffer, boost:serialization , too heavy for me.  so I wrote this lite version.
+there are several lib out there support serialization,like protobuffer, boost:serialization , too heavy for me.  so I wrote this lite version.
 
 #support 
 vector,map,set,string,primitives(int,double,long,...).
