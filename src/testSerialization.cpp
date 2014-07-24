@@ -62,25 +62,38 @@ class Obj :public  ISerializable
 {
 
 public:
-vector<int> objs;
+vector<int>			objs;
+vector<Obj*>		objs2;
+map<int,string>		maps;
 	int a;
 	Obj(){}
 	Obj(int aa) :a(aa)   {
 	objs.push_back(1);
 	objs.push_back(2);
 	objs.push_back(3);
+	objs2.push_back(new Obj());
+	objs2[0]->a=9999;
+
+	maps[1] = "hello,nesting";
+	maps[2] = "hello,nesting2";
 }
 	  ostream& serialize(ostream& s)
-{
-		Serialize(s,a);
-		Serialize(s,objs);
-return s;
+	  {
+			Serialize(s, maps);
+			Serialize(s,a);
+			Serialize(s,objs);
+			Serialize(s, objs2);
+		
+			return s;
  }
 	  istream& deSerialize(istream& s) 
 {
+		  DeSerialize(s, maps);
 		  DeSerialize(s, a);
 		  DeSerialize(s, objs);
-return s;
+		  DeSerialize(s, objs2);
+
+			return s;
 }
 	
 };
