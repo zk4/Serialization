@@ -3,6 +3,7 @@
  
 #include "serialization.h"
 #include <fstream>
+#include <sstream>
 using namespace std;
 static const  char * buffer_txt = "buffer.txt";
 
@@ -76,7 +77,8 @@ return s;
 
 ostream& operator<< (ostream& o, Obj& s)
 {
-	o << s.a  << "\n";
+	 
+	o << s.a  ;
 	return o;
 };
 
@@ -156,6 +158,48 @@ void testVectorPointPrimtives(vector<Obj*> v)
 }
 
 
+template<typename T>
+void testListPrimtives(list<T> v)
+{
+	cout << "-------------------------------\n";
+
+	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
+	Serialize(file, v);
+	file.flush();
+	file.close();
+
+	list<T>  a2;
+	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
+	DeSerialize(file2, a2);
+	for (auto a : a2)
+	{
+
+		cout << a   ;
+	}
+}
+
+template<typename T>
+void testPointerListPrimtives(list<T*> v)
+{
+	cout << "-------------------------------\n";
+
+	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
+	Serialize(file, v);
+	file.flush();
+	file.close();
+
+	list<T*>  a2;
+	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
+	DeSerialize(file2, a2);
+	for (auto a : a2)
+	{
+		if (a)
+		cout << *a << "\n";
+		else 
+		cout << "NULL\n";
+	}
+}
+
 int main( )
 {
 	testVectorPrimtives<int>({ 1,2, 3, 4 });
@@ -224,6 +268,24 @@ int main( )
 		testSetPrimtives(sets);
 	}
 
+	{
+		list <int>  lists = { 1, 2, 31, 1, 1, 0, 0, 0, 0, 1 };
+		testListPrimtives(lists);
+	}
+	{
+		list <double>  lists = { 1, 2, 31, 1, 1, 0, 0.12321, 0, 0, 1 };
+		testListPrimtives(lists);
+	}
+	{
+		list <string>  lists = {"hello","list" };
+		testListPrimtives(lists);
+	}
+	list <Obj*>  objs;
+	objs.push_back(new Obj(11));
+	objs.push_back(NULL);
+	objs.push_back(new Obj(22));
+	objs.push_back(NULL);
+	testPointerListPrimtives(objs);
 	getchar();
 	return 0;
 }

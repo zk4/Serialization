@@ -6,23 +6,12 @@
 //
 
 #include <cassert>
-#include <cmath>
 #include <map>
 #include <vector>
 #include <iostream>
-#include <algorithm>
-#include <sstream>
-#include <vector>
-#include <utility>
 #include <set>
-
-#ifdef WIN32
-#include <type_traits>
-#include <random>
-#else
-#include <type_traits>
-#endif
-
+#include <list>
+ 
 using namespace std;
 
 class ISerializable
@@ -156,17 +145,19 @@ static ostream&  Serialize(ostream& ostream_, vector<T*>& container)
 	int index = 0;
 	for (auto ite = container.begin(); ite != container.end(); ite++)
 	{
+
 		if ((*ite) != NULL)
 		{
-
+			bool  notNULL=true;
+			Serialize(ostream_, notNULL);
 			Serialize(ostream_, index);
 			ISerializable* i = dynamic_cast<ISerializable*>(*ite);
 			Serialize(ostream_, i);
 		}
 		else
 		{
-			int index2 = -1;
-			Serialize(ostream_, index2);
+			bool  notNULL = false;
+			Serialize(ostream_, notNULL);
 		}
 		index++;
 	}
@@ -184,9 +175,10 @@ static  istream& DeSerialize(istream& istream_, vector<T*>& container)
 	container.resize(size);
 	for (int i = 0; i < size; ++i)
 	{
-		int index = -1;
-		DeSerialize(istream_, index);
-		if (index != -1)
+		bool  notNULL = false;
+		DeSerialize(istream_, notNULL);
+ 
+		if (notNULL)
 		{
 			T* object = new T;
 			DeSerialize(istream_, dynamic_cast<ISerializable*>(object));
@@ -339,7 +331,7 @@ static ostream&  Serialize(ostream& ostream_, set<T*>& container)
 
 	size_t size = container.size();
 	 Serialize(ostream_,size);
-	int index = 0;
+	 
 	for (auto ite = container.begin(); ite != container.end(); ite++)
 	{
 		if ((*ite) != NULL)
@@ -354,7 +346,7 @@ static ostream&  Serialize(ostream& ostream_, set<T*>& container)
 			bool noNULL = false;
 			Serialize(ostream_, noNULL);
 		}
-		index++;
+		 
 	}
 	return ostream_;
 }
@@ -385,4 +377,92 @@ static  istream& DeSerialize(istream& istream_, set<T*>& container)
 	}
 	return istream_;
 }
+
+
+
+////////////////list/////////////////////
+
+template <class T >
+static ostream& Serialize(ostream& ostream_, list<T>& container)
+{
+	size_t size = container.size();
+	Serialize(ostream_, size);
+	for (auto& ite : container)
+	{
+		Serialize(ostream_, ite);
+	}
+	return ostream_;
+}
+
+template <class T >
+static  istream& DeSerialize(istream& istream_, list<T>&container)
+{
+	if (!istream_.good() || istream_.eof())return istream_;
+
+	int size;
+	container.clear();
+	DeSerialize(istream_, size);
+	for (int i = 0; i < size; ++i)
+	{
+		T t;
+		DeSerialize(istream_, t);
+		container.push_back(t);
+	}
+	assert(istream_.good());
+	return istream_;
+}
+
+template <class T >
+static ostream&  Serialize(ostream& ostream_, list<T*>& container)
+{
+
+	size_t size = container.size();
+	Serialize(ostream_, size);
+ 
+	for (auto ite = container.begin(); ite != container.end(); ite++)
+	{
+		if ((*ite) != NULL)
+		{
+			bool noNULL = true;
+			Serialize(ostream_, noNULL);
+			ISerializable* i = dynamic_cast<ISerializable*>(*ite);
+			Serialize(ostream_, i);
+		}
+		else
+		{
+			bool noNULL = false;
+			Serialize(ostream_, noNULL);
+		}
+		 
+	}
+	return ostream_;
+}
+
+template <class T >
+static  istream& DeSerialize(istream& istream_, list<T*>& container)
+{
+	if (!istream_.good() || istream_.eof())return istream_;
+	int size;
+	container.clear();
+
+	DeSerialize(istream_, size);
+	 
+	for (int i = 0; i < size; ++i)
+	{
+		bool notNULL = false;
+		DeSerialize(istream_, notNULL);
+		if (notNULL)
+		{
+			T* object = new T;
+			DeSerialize(istream_, dynamic_cast<ISerializable*>(object));
+			container.push_back(object);
+		}
+		else
+		{
+			container.push_back(NULL);
+		}
+	}
+	return istream_;
+}
+
 
