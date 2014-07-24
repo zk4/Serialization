@@ -10,9 +10,9 @@ there are several lib out there support serialization,like protobuffer, boost:se
 * string
 * primitives(int,double,long,...)
 
-*endian support
+* endian support
 
-*nesting container support
+* nesting container support
 ```cpp
 vector<map<int, Obj*> >  
 vector<vector<string> >  
@@ -35,7 +35,7 @@ camke build process:
 	cmake ..
 ```
 #usage
-#define CHECK_ENDIAN=1  if you wanna check endian
+define CHECK_ENDIAN=1  if you wanna check endian
 
 #demo
 check testSerialization.cpp 
