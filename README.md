@@ -10,6 +10,13 @@ there are several lib out there support serialization,like protobuffer, boost:se
 * string
 * primitives(int,double,long,...)
 
+*endian support
+
+
+use char instead bool in STL
+[why](http://stackoverflow.com/questions/15809157/why-is-the-size-of-stdvectorbool-16-byte)
+
+
 #build
 you can build this project by CMake. or  just import **serialization.h** into your project.
 
@@ -23,7 +30,7 @@ camke build process:
 
 #demo
 check testSerialization.cpp 
-
-
-
+ 
+#comming soom 
+endian conversion.
 

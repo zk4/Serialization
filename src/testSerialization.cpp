@@ -203,13 +203,14 @@ void testPointerListPrimtives(list<T*> v)
 
 int main( )
 {
+ 	testVectorPrimtives<bool>({ false, true,false });
 	testVectorPrimtives<int>({ 1,2, 3, 4 });
 	testVectorPrimtives<double>({ 1.3, 2.3, 3.3, 4.3 });
 	testVectorPrimtives<float>({ 1.3f, 2.3f, 3.3f, 4.3f });
 	testVectorPrimtives<char>({  'b', 'd' });
 	testVectorPrimtives<long long >({1111111111,222222222});
 	testVectorPrimtives<long>({ 1111111111, 222222222 });
-	testVectorPrimtives<bool>({false,true}); 
+
 
 	testString("hello,world");
 	testString("ÄãºÃ,ÊÀ½ç");
@@ -234,7 +235,10 @@ int main( )
 		map<int, string>  m2 = { { 1, "hello" }, { 2, "world" } };
 		testMapPrimtives(m2);
 	}
-	
+	{
+		map<string, string>  m2 = { { "ho", "hello" }, {"wd", "world" } };
+		testMapPrimtives(m2);
+	}
 	{
 		map<int, int>  m2 = { { 1, 1 }, { 2, 2 } };
 		testMapPrimtives(m2);
