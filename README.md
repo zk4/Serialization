@@ -32,7 +32,7 @@ use char instead bool in STL
 #build
 you can build this project by CMake. or  just import **serialization.h** into your project.
 
-camke build process:
+cmake build process:
 
 ```sh
 	mkdir prj
