@@ -6,6 +6,7 @@ If your server & client both written in c++. I think it is a  good choice. simpl
 
 #support 
 * vector
+* list
 * map
 * set
 * string
