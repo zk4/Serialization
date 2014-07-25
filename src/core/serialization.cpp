@@ -66,11 +66,8 @@ istream& serialize::DeSerialize (istream& istream_, std::string& string_)
 {
     int size = 0;
     DeSerialize (istream_, size);
-    char* buffer = new char[size + 1];
-    memset (buffer, 0, size + 1);
-    read_internal (istream_, buffer, size);
-    string_.assign (buffer);
-    delete[] buffer;
+    string_.resize (size);
+    read_internal (istream_, const_cast<char*> (string_.c_str()), size);
     return  istream_;
 }
 
