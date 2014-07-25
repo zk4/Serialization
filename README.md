@@ -7,9 +7,6 @@ there are several lib out there support serialization,like protobuffer, boost:se
 * set
 * string
 * primitives(int,double,long,...)
-
-* endian support
-
 * nesting container support
 ```cpp
 vector<map<int, Obj*> >  
@@ -17,7 +14,7 @@ vector<vector<string> >
 vector<list<string> >  
 vector<string>  
 ```
-* endian auto conversion 
+* endian auto conversion  
   no need to worry about endian problem.all data write as little endian.
 
 
