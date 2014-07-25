@@ -17,9 +17,7 @@ ostream& operator<< (ostream& o, ss& s)
  o << s.a << " " << s.b << "\n";
 return o;
 };
-
-#pragma  once 
-
+ 
 #include "core/serialization.h"
 #include "core/ISerializable.h"
 class Obj :public  ISerializable
