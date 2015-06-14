@@ -3,14 +3,13 @@
 
 
 #include <iostream>
-using namespace  std;
 
 class ISerializable
 {
 public:
 
-	virtual ostream& serialize( ostream& ostream_) = 0;
-	virtual istream& deSerialize(istream& istream_) = 0;
+	virtual std::ostream& serialize( std::ostream& ostream_) = 0;
+	virtual std::istream& deSerialize(std::istream& istream_) = 0;
  
 };
 
