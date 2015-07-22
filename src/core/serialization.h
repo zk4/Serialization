@@ -168,6 +168,10 @@ static inline void ZeroMem(T& t)
 template<typename T>
 static inline istream& DeSerialize(istream& istream_, T&  t_)
 {
+//    ISerializable* i=dynamic_cast<ISerializable*>(&t_);
+//    if(i)
+//       return  DeSerialize(istream_,i);
+//       else
 	return read_internal(istream_, (char*)&t_, sizeof (t_));
 }
 

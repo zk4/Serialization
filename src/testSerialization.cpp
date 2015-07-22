@@ -347,6 +347,18 @@ int main( )
 	testVectorPrimtives(intss);
 
 	}
+    struct A{
+        int a,b;
+    };
+    
+    {
+        vector<A>  as;
+        as={{1,2},{3,4}};
+        testVectorPrimtives(as);
+        
+    }
+    
+   
 	 
 	return 0;
 }
