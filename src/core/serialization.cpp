@@ -11,21 +11,21 @@ bool serialize::LE()
     return le;
 }
 
-bool serialize::ReadEndian (std::istream &istream_)
+bool serialize::ReadEndian (istream &istream_)
 {
     bool littleEndian = false;
     istream_.read ((char*)&littleEndian, sizeof (littleEndian));
     return littleEndian;
 }
 
-void serialize::WriteEndian (std::ostream &ostream_)
+void serialize::WriteEndian (ostream &ostream_)
 {
     bool littleEndian = LE();
 
     ostream_.write ((char*)&littleEndian, sizeof (littleEndian));
 }
 
-std::istream& serialize::read_internal (std::istream& istream_, char* p, int size)
+istream& serialize::read_internal (istream& istream_, char* p, uint32_t size)
 {
 
     if (!LE())
@@ -41,7 +41,7 @@ std::istream& serialize::read_internal (std::istream& istream_, char* p, int siz
     return  istream_;
 }
 
-std::ostream& serialize::write_internal (std::ostream& ostream_, const char* p, int size)
+ostream& serialize::write_internal (ostream& ostream_, const char* p, uint32_t size)
 {
 
     if (!LE())
@@ -57,12 +57,12 @@ std::ostream& serialize::write_internal (std::ostream& ostream_, const char* p, 
     return  ostream_;
 }
 
-std::istream& serialize::DeSerialize (std::istream& istream_, ISerializable* t_)
+istream& serialize::DeSerialize (istream& istream_, ISerializable* t_)
 {
     return t_->deSerialize (istream_);
 }
 
-std::istream& serialize::DeSerialize (std::istream& istream_, std::string& string_)
+istream& serialize::DeSerialize (istream& istream_, std::string& string_)
 {
     int size = 0;
     DeSerialize (istream_, size);
@@ -71,7 +71,7 @@ std::istream& serialize::DeSerialize (std::istream& istream_, std::string& strin
     return  istream_;
 }
 
-std::istream& serialize::DeSerialize (std::istream& istream_, char* str)
+istream& serialize::DeSerialize (istream& istream_, char* str)
 {
     int size = 0;
     DeSerialize (istream_, size);
@@ -79,7 +79,7 @@ std::istream& serialize::DeSerialize (std::istream& istream_, char* str)
     return  istream_;
 }
 
-std::istream& serialize::DeSerialize (std::istream& istream_, std::vector<bool>&container)
+istream& serialize::DeSerialize (istream& istream_, vector<bool>&container)
 {
     if (!istream_.good() || istream_.eof())return istream_;
 
@@ -96,38 +96,38 @@ std::istream& serialize::DeSerialize (std::istream& istream_, std::vector<bool>&
     return istream_;
 }
 
-std::ostream& serialize::Serialize (std::ostream& ostream_, ISerializable* t_)
+ostream& serialize::Serialize (ostream& ostream_, ISerializable* t_)
 {
     return t_->serialize (ostream_);
 }
 
-std::ostream& serialize::Serialize (std::ostream& ostream_, const std::string& string_)
+ostream& serialize::Serialize (ostream& ostream_, const std::string& string_)
 {
-    int size = string_.size();
+    uint32_t size = string_.size();
     Serialize (ostream_, size);
     write_internal (ostream_, string_.c_str(), string_.size());
     return ostream_;
 }
 
-std::ostream& serialize::Serialize (std::ostream& ostream_, std::string& string_)
+ostream& serialize::Serialize (ostream& ostream_, std::string& string_)
 {
-    int size = string_.size();
+    uint32_t size = string_.size();
     Serialize (ostream_, size);
     write_internal (ostream_, string_.c_str(), string_.size());
     return ostream_;
 }
 
-std::ostream& serialize::Serialize (std::ostream& ostream_, const char* str)
+ostream& serialize::Serialize (ostream& ostream_, const char* str)
 {
-    int size = strlen (str);
+    uint32_t size = strlen (str);
     Serialize (ostream_, size);
     write_internal (ostream_, str, size);
     return ostream_;
 }
 
-std::ostream& serialize::Serialize (std::ostream& ostream_, std::vector<bool>& container)
+ostream& serialize::Serialize (ostream& ostream_, vector<bool>& container)
 {
-    int size = container.size();
+    uint32_t size = container.size();
     Serialize (ostream_, size);
 
     for (auto ite : container)

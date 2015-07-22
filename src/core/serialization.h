@@ -13,16 +13,17 @@
 #include <list>
  
 #include "ISerializable.h"
+using namespace std;
 
-#define  CHECK_ENDIAN 0
+
 
 class serialize
 {
 public:
 // little endian if true
 static bool LE();
-static bool ReadEndian(std::istream &istream_);
-static void WriteEndian(std::ostream &ostream_);
+static bool ReadEndian(istream &istream_);
+static void WriteEndian(ostream &ostream_);
 
 template<typename T>
 static void ZeroMem(T& t)
@@ -31,44 +32,44 @@ static void ZeroMem(T& t)
 }
 
 
-static std::istream&  read_internal(std::istream& istream_, char* p, int size);
-static std::ostream& write_internal(std::ostream& ostream_, const char* p, int size);
+static istream&  read_internal(istream& istream_, char* p, uint32_t size);
+static ostream& write_internal(ostream& ostream_, const char* p, uint32_t size);
 
 template<typename T>
-static std::istream& DeSerialize(std::istream& istream_, T&  t_)
+static istream& DeSerialize(istream& istream_, T&  t_)
 {
 	return read_internal(istream_, (char*)&t_, sizeof (t_));
 }
 
 template<typename T>
-static std::ostream& Serialize(std::ostream& ostream_, T&  t_)
+static ostream& Serialize(ostream& ostream_, T&  t_)
 {
 	int size = sizeof(t_);
 	return write_internal(ostream_, (const char*)&t_, sizeof(t_));
 }
 
  
-static std::istream&   DeSerialize(std::istream& istream_, ISerializable* t_);
-static std::ostream&	  Serialize(std::ostream& ostream_, ISerializable* t_);
-static  std::ostream&  Serialize(std::ostream& ostream_, const std::string& string_);
-static  std::ostream&  Serialize(std::ostream& ostream_, std::string& string_);
-static  std::istream&  DeSerialize(std::istream& istream_, std::string& string_);
-static  std::ostream&  Serialize(std::ostream& ostream_, const char* str);
-static  std::istream&  DeSerialize(std::istream& istream_, char* str);
+static istream&   DeSerialize(istream& istream_, ISerializable* t_);
+static ostream&	  Serialize(ostream& ostream_, ISerializable* t_);
+static  ostream&  Serialize(ostream& ostream_, const std::string& string_);
+static  ostream&  Serialize(ostream& ostream_, std::string& string_);
+static  istream&  DeSerialize(istream& istream_, std::string& string_);
+static  ostream&  Serialize(ostream& ostream_, const char* str);
+static  istream&  DeSerialize(istream& istream_, char* str);
 
 
 /////////////vector<bool>//////////////////////////////////
 //why specialize this ? //http://stackoverflow.com/questions/15809157/why-is-the-size-of-stdvectorbool-16-byte
  
-static std::ostream& Serialize(std::ostream& ostream_, std::vector<bool>& container);
-static  std::istream& DeSerialize(std::istream& istream_, std::vector<bool>&container);
+static ostream& Serialize(ostream& ostream_, vector<bool>& container);
+static  istream& DeSerialize(istream& istream_, vector<bool>&container);
 
 
 /////////////vector//////////////////////////////////
 template <class T >
-static std::ostream& Serialize(std::ostream& ostream_, std::vector<T>& container)
+static ostream& Serialize(ostream& ostream_, vector<T>& container)
 {
-	int size = container.size();
+	uint32_t size = container.size();
 	Serialize(ostream_, size);
 	for (auto& ite : container)
 	{
@@ -78,7 +79,7 @@ static std::ostream& Serialize(std::ostream& ostream_, std::vector<T>& container
 }
 
 template <class T >
-static  std::istream& DeSerialize(std::istream& istream_, std::vector<T>&container)
+static  istream& DeSerialize(istream& istream_, vector<T>&container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 
@@ -96,12 +97,12 @@ static  std::istream& DeSerialize(std::istream& istream_, std::vector<T>&contain
 }
 
 template <class T >
-static std::ostream&  Serialize(std::ostream& ostream_, std::vector<T*>& container)
+static ostream&  Serialize(ostream& ostream_, vector<T*>& container)
 {
 
-	int size = container.size();
+	uint32_t size = container.size();
 	 
-	write_internal(ostream_, (char*)&size, sizeof (int));
+	write_internal(ostream_, (char*)&size, sizeof (uint32_t));
 	int index = 0;
 	for (auto ite = container.begin(); ite != container.end(); ite++)
 	{
@@ -125,7 +126,7 @@ static std::ostream&  Serialize(std::ostream& ostream_, std::vector<T*>& contain
 }
 
 template <class T >
-static  std::istream& DeSerialize(std::istream& istream_, std::vector<T*>& container)
+static  istream& DeSerialize(istream& istream_, vector<T*>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
@@ -156,10 +157,10 @@ static  std::istream& DeSerialize(std::istream& istream_, std::vector<T*>& conta
 ////////////////map/////////////////////
 
 template <class K, class V>
-static std::ostream&  Serialize(std::ostream& ostream_, std::map<K, V>& container)
+static ostream&  Serialize(ostream& ostream_, map<K, V>& container)
 {
 
-	int size = container.size();
+	uint32_t size = container.size();
 	Serialize(ostream_, size);
 
 	for (auto p : container)
@@ -173,7 +174,7 @@ static std::ostream&  Serialize(std::ostream& ostream_, std::map<K, V>& containe
 }
 
 template <class K, class V>
-static  std::istream& DeSerialize(std::istream& istream_, std::map<K, V>& container)
+static  istream& DeSerialize(istream& istream_, map<K, V>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
@@ -195,10 +196,10 @@ static  std::istream& DeSerialize(std::istream& istream_, std::map<K, V>& contai
 
 
 template <class K, class V>
-static std::ostream&  Serialize(std::ostream& ostream_, std::map<K, V*>& container)
+static ostream&  Serialize(ostream& ostream_, map<K, V*>& container)
 {
 
-	int size = container.size();
+	uint32_t size = container.size();
 	Serialize(ostream_, size);
 	int index = 0;
 	for (auto p : container)
@@ -225,7 +226,7 @@ static std::ostream&  Serialize(std::ostream& ostream_, std::map<K, V*>& contain
 }
 
 template <class K, class V>
-static  std::istream& DeSerialize(std::istream& istream_, std::map<K, V*>& container)
+static  istream& DeSerialize(istream& istream_, map<K, V*>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
@@ -256,9 +257,9 @@ static  std::istream& DeSerialize(std::istream& istream_, std::map<K, V*>& conta
 ////////////////set/////////////////////
 
 template <class T >
-static std::ostream& Serialize(std::ostream& ostream_, std::set<T>& container)
+static ostream& Serialize(ostream& ostream_, set<T>& container)
 {
-	int size = container.size();
+	uint32_t size = container.size();
 	Serialize(ostream_, size);
 	for (auto& ite : container)
 	{
@@ -268,7 +269,7 @@ static std::ostream& Serialize(std::ostream& ostream_, std::set<T>& container)
 }
 
 template <class T >
-static  std::istream& DeSerialize(std::istream& istream_, std::set<T>&container)
+static  istream& DeSerialize(istream& istream_, set<T>&container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 
@@ -286,10 +287,10 @@ static  std::istream& DeSerialize(std::istream& istream_, std::set<T>&container)
 }
 
 template <class T >
-static std::ostream&  Serialize(std::ostream& ostream_, std::set<T*>& container)
+static ostream&  Serialize(ostream& ostream_, set<T*>& container)
 {
 
-	int size = container.size();
+	uint32_t size = container.size();
 	Serialize(ostream_, size);
 
 	for (auto ite = container.begin(); ite != container.end(); ite++)
@@ -312,7 +313,7 @@ static std::ostream&  Serialize(std::ostream& ostream_, std::set<T*>& container)
 }
 
 template <class T >
-static  std::istream& DeSerialize(std::istream& istream_, std::set<T*>& container)
+static  istream& DeSerialize(istream& istream_, set<T*>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
@@ -343,9 +344,9 @@ static  std::istream& DeSerialize(std::istream& istream_, std::set<T*>& containe
 ////////////////list/////////////////////
 
 template <class T >
-static std::ostream& Serialize(std::ostream& ostream_, std::list<T>& container)
+static ostream& Serialize(ostream& ostream_, list<T>& container)
 {
-	int size = container.size();
+	uint32_t size = container.size();
 	Serialize(ostream_, size);
 	for (auto& ite : container)
 	{
@@ -355,7 +356,7 @@ static std::ostream& Serialize(std::ostream& ostream_, std::list<T>& container)
 }
 
 template <class T >
-static  std::istream& DeSerialize(std::istream& istream_, std::list<T>&container)
+static  istream& DeSerialize(istream& istream_, list<T>&container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 
@@ -373,10 +374,10 @@ static  std::istream& DeSerialize(std::istream& istream_, std::list<T>&container
 }
 
 template <class T >
-static std::ostream&  Serialize(std::ostream& ostream_, std::list<T*>& container)
+static ostream&  Serialize(ostream& ostream_, list<T*>& container)
 {
 
-	int size = container.size();
+	uint32_t size = container.size();
 	Serialize(ostream_, size);
 
 	for (auto ite = container.begin(); ite != container.end(); ite++)
@@ -401,7 +402,7 @@ static std::ostream&  Serialize(std::ostream& ostream_, std::list<T*>& container
 
 
 template <class T >
-static  std::istream& DeSerialize(std::istream& istream_, std::list<T*>& container)
+static  istream& DeSerialize(istream& istream_, list<T*>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
