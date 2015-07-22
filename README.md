@@ -2,7 +2,7 @@
 there are several lib out there support serialization,like protobuffer,flatbuffers,capnproto.
 Need schema file for generating source files, which is cool between peers. 
 but that is too heavy for me. so I wrote this lite version.only support c++. 
-If your server & client both written in c++. I think it is a  good choice. simple as it is , hack whatever u want.
+If your just want to serialize & deserialize data on the same machine. I think it is a  good choice. simple as it is , hack whatever u want.
 
 #support 
 * vector
