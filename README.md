@@ -40,8 +40,8 @@ cmake build process:
 	cd prj
 	cmake ..
 ```
-#usage
-define CHECK_ENDIAN=1  if you wanna check endian
+if it doesn`t work. set compile flags to c++11
+
 
 #demo
 check testSerialization.cpp 

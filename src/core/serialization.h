@@ -15,7 +15,7 @@
 #include "ISerializable.h"
 using namespace std;
 
-#define  CHECK_ENDIAN 0
+
 
 class serialize
 {
@@ -32,8 +32,8 @@ static void ZeroMem(T& t)
 }
 
 
-static istream&  read_internal(istream& istream_, char* p, size_t size);
-static ostream& write_internal(ostream& ostream_, const char* p, size_t size);
+static istream&  read_internal(istream& istream_, char* p, int32_t size);
+static ostream& write_internal(ostream& ostream_, const char* p, int32_t size);
 
 template<typename T>
 static istream& DeSerialize(istream& istream_, T&  t_)
@@ -69,7 +69,7 @@ static  istream& DeSerialize(istream& istream_, vector<bool>&container);
 template <class T >
 static ostream& Serialize(ostream& ostream_, vector<T>& container)
 {
-	size_t size = container.size();
+	int32_t size = container.size();
 	Serialize(ostream_, size);
 	for (auto& ite : container)
 	{
@@ -100,9 +100,9 @@ template <class T >
 static ostream&  Serialize(ostream& ostream_, vector<T*>& container)
 {
 
-	size_t size = container.size();
+	int32_t size = container.size();
 	 
-	write_internal(ostream_, (char*)&size, sizeof (size_t));
+	write_internal(ostream_, (char*)&size, sizeof (int32_t));
 	int index = 0;
 	for (auto ite = container.begin(); ite != container.end(); ite++)
 	{
@@ -160,7 +160,7 @@ template <class K, class V>
 static ostream&  Serialize(ostream& ostream_, map<K, V>& container)
 {
 
-	size_t size = container.size();
+	int32_t size = container.size();
 	Serialize(ostream_, size);
 
 	for (auto p : container)
@@ -199,7 +199,7 @@ template <class K, class V>
 static ostream&  Serialize(ostream& ostream_, map<K, V*>& container)
 {
 
-	size_t size = container.size();
+	int32_t size = container.size();
 	Serialize(ostream_, size);
 	int index = 0;
 	for (auto p : container)
@@ -259,7 +259,7 @@ static  istream& DeSerialize(istream& istream_, map<K, V*>& container)
 template <class T >
 static ostream& Serialize(ostream& ostream_, set<T>& container)
 {
-	size_t size = container.size();
+	int32_t size = container.size();
 	Serialize(ostream_, size);
 	for (auto& ite : container)
 	{
@@ -290,7 +290,7 @@ template <class T >
 static ostream&  Serialize(ostream& ostream_, set<T*>& container)
 {
 
-	size_t size = container.size();
+	int32_t size = container.size();
 	Serialize(ostream_, size);
 
 	for (auto ite = container.begin(); ite != container.end(); ite++)
@@ -346,7 +346,7 @@ static  istream& DeSerialize(istream& istream_, set<T*>& container)
 template <class T >
 static ostream& Serialize(ostream& ostream_, list<T>& container)
 {
-	size_t size = container.size();
+	int32_t size = container.size();
 	Serialize(ostream_, size);
 	for (auto& ite : container)
 	{
@@ -377,7 +377,7 @@ template <class T >
 static ostream&  Serialize(ostream& ostream_, list<T*>& container)
 {
 
-	size_t size = container.size();
+	int32_t size = container.size();
 	Serialize(ostream_, size);
 
 	for (auto ite = container.begin(); ite != container.end(); ite++)
