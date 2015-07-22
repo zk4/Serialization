@@ -19,7 +19,7 @@ return o;
 };
  
 #include "core/serialization.h"
-#include "core/I.h"
+
 class Obj :public  serialize::I
 {
 
