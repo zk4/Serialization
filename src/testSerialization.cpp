@@ -347,12 +347,9 @@ int main( )
 	testVectorPrimtives(intss);
 
 	}
-    struct A{
-        int a,b;
-    };
     
     {
-        vector<A>  as;
+        vector<ss>  as;
         as={{1,2},{3,4}};
         testVectorPrimtives(as);
         
