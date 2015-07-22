@@ -57,6 +57,17 @@ public:
 
 		return s;
 	}
+    
+    //not complete ==,just for a demo :)
+    bool operator==(const  Obj& s)
+    {
+
+        for (int i =0;i <objs.size();++i)
+            if (objs[i]!=objs[i])return false;
+        
+        return  true;
+        
+    }
 	friend ostream& operator<< (ostream& o, Obj& s)
 	{
 
@@ -86,7 +97,7 @@ void testVectorPrimtives(vector<T> v)
 	serialize::DeSerialize(file2, a2);
 	 for (int i=0;i <a2.size(); ++i)
 	 {
-	 	 
+         
 	 }
 }
  
@@ -250,7 +261,7 @@ int main( )
 
 
 	testString("hello,world");
-	testString("ÄãºÃ,ÊÀ½ç");
+	testString("ä½ å¥½ï¼Œä¸–ç•Œ");
 	 
 	{
 		vector<Obj*>   objs;
@@ -336,7 +347,7 @@ int main( )
 	testVectorPrimtives(intss);
 
 	}
-	getchar();
+	 
 	return 0;
 }
 
