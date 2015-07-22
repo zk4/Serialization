@@ -23,8 +23,8 @@ public:
     {
     public:
         
-        virtual std::ostream& serialize( std::ostream& ostream_) = 0;
-        virtual std::istream& dewrite(std::istream& istream_) = 0;
+        virtual std::ostream& write( std::ostream& ostream_) = 0;
+        virtual std::istream& read(std::istream& istream_) = 0;
         
     };
 
@@ -84,7 +84,7 @@ public:
     
     static inline istream& read (istream& istream_, I* t_)
     {
-        return t_->dewrite (istream_);
+        return t_->read (istream_);
     }
     
     static inline istream& read (istream& istream_, std::string& string_)
@@ -123,7 +123,7 @@ public:
     
     static inline ostream& write (ostream& ostream_, I* t_)
     {
-        return t_->serialize (ostream_);
+        return t_->write (ostream_);
     }
     
     static inline ostream& write (ostream& ostream_, const std::string& string_)

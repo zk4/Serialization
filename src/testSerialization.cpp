@@ -39,7 +39,7 @@ public:
 		maps[1] = "hello,nesting";
 		maps[2] = "hello,nesting2";
 	}
-	ostream& serialize(ostream& s)
+	ostream& write(ostream& s)
 	{
 		serialize::write(s, maps);
 		serialize::write(s, a);
@@ -48,7 +48,7 @@ public:
 
 		return s;
 	}
-	istream& dewrite(istream& s)
+	istream& read(istream& s)
 	{
 		serialize::read(s, maps);
 		serialize::read(s, a);
