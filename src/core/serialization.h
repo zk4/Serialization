@@ -182,7 +182,6 @@ static inline istream& read(istream& istream_, T&  t_)
 template<typename T>
 static inline ostream& write(ostream& ostream_, T&  t_)
 {
-	int size = sizeof(t_);
 	return write_internal(ostream_, (const char*)&t_, sizeof(t_));
 }
     
