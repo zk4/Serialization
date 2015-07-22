@@ -41,19 +41,19 @@ public:
 	}
 	ostream& serialize(ostream& s)
 	{
-		serialize::Serialize(s, maps);
-		serialize::Serialize(s, a);
-		serialize::Serialize(s, objs);
-		serialize::Serialize(s, objs2);
+		serialize::read(s, maps);
+		serialize::read(s, a);
+		serialize::read(s, objs);
+		serialize::read(s, objs2);
 
 		return s;
 	}
-	istream& deSerialize(istream& s)
+	istream& deread(istream& s)
 	{
-		serialize::DeSerialize(s, maps);
-		serialize::DeSerialize(s, a);
-		serialize::DeSerialize(s, objs);
-		serialize::DeSerialize(s, objs2);
+		serialize::write(s, maps);
+		serialize::write(s, a);
+		serialize::write(s, objs);
+		serialize::write(s, objs2);
 
 		return s;
 	}
@@ -88,13 +88,13 @@ void testVectorPrimtives(vector<T> v)
  	cout << "-------------------------------\n";
 	 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
-	serialize::Serialize(file, v);
+	serialize::read(file, v);
 	file.flush();
 	file.close();
 
 	vector<T>  a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
-	serialize::DeSerialize(file2, a2);
+	serialize::write(file2, a2);
 	 for (int i=0;i <a2.size(); ++i)
 	 {
          
@@ -108,13 +108,13 @@ void testString(string s)
 	 cout << "string-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
-	serialize::Serialize(file, s);
+	serialize::read(file, s);
 	file.flush();
 	file.close();
 
 	string  s2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
-	serialize::DeSerialize(file2, s2);
+	serialize::write(file2, s2);
 	 
 	 	cout <<s2<< "\n";
  
@@ -125,13 +125,13 @@ void testMapPoinritPrimtives(map<int, Obj*> v)
  	cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
-	serialize::Serialize(file, v);
+	serialize::read(file, v);
 	file.flush();
 	file.close();
 
 	map<int, Obj*>   a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
-	serialize::DeSerialize(file2, a2);
+	serialize::write(file2, a2);
 	 for (auto a :a2)
 	{
 		cout << a.first << " " << ((a.second)?a.second->a:0 )<< "\n";
@@ -144,13 +144,13 @@ void testMapPrimtives(map<K, V> v)
 	 cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
-	serialize::Serialize(file, v);
+	serialize::read(file, v);
 	file.flush();
 	file.close();
 
 	map<K, V>   a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
-	serialize::DeSerialize(file2, a2);
+	serialize::write(file2, a2);
 	 for (auto a : a2)
 	 {
 	 	cout << a.first << " " <<  (a.second)  << "\n";
@@ -163,13 +163,13 @@ void testSetPrimtives(set<K> v)
 	 cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
-	serialize::Serialize(file, v);
+	serialize::read(file, v);
 	file.flush();
 	file.close();
 
 	set<K>  a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
-	serialize::DeSerialize(file2, a2);
+	serialize::write(file2, a2);
 	 for (auto a : a2)
 	 {
 	 	cout << a << "\n";
@@ -182,13 +182,13 @@ void testVectorPointPrimtives(vector<Obj*> v)
  	cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
-	serialize::Serialize(file, v);
+	serialize::read(file, v);
 	file.flush();
 	file.close();
 
 	vector<Obj*>  a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
-	serialize::DeSerialize(file2, a2);
+	serialize::write(file2, a2);
 	 for (int i = 0; i < a2.size(); ++i)
 	{
 	 
@@ -202,13 +202,13 @@ void testListPrimtives(list<T> v)
   	cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
-	serialize::Serialize(file, v);
+	serialize::read(file, v);
 	file.flush();
 	file.close();
 
 	list<T>  a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
-	serialize::DeSerialize(file2, a2);
+	serialize::write(file2, a2);
 	 for (auto a : a2)
 	{
 
@@ -222,13 +222,13 @@ void testPointerListPrimtives(list<T*> v)
  	cout << "-------------------------------\n";
 
 	ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
-	serialize::Serialize(file, v);
+	serialize::read(file, v);
 	file.flush();
 	file.close();
 
 	list<T*>  a2;
 	ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
-	serialize::DeSerialize(file2, a2);
+	serialize::write(file2, a2);
 	 for (auto a : a2)
 	 {
 	 	if (a)

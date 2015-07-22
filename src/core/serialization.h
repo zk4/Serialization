@@ -24,7 +24,7 @@ public:
     public:
         
         virtual std::ostream& serialize( std::ostream& ostream_) = 0;
-        virtual std::istream& deSerialize(std::istream& istream_) = 0;
+        virtual std::istream& deread(std::istream& istream_) = 0;
         
     };
 
@@ -82,83 +82,83 @@ public:
         return  ostream_;
     }
     
-    static inline istream& DeSerialize (istream& istream_, I* t_)
+    static inline istream& write (istream& istream_, I* t_)
     {
-        return t_->deSerialize (istream_);
+        return t_->deread (istream_);
     }
     
-    static inline istream& DeSerialize (istream& istream_, std::string& string_)
+    static inline istream& write (istream& istream_, std::string& string_)
     {
         int size = 0;
-        DeSerialize (istream_, size);
+        write (istream_, size);
         string_.resize (size);
         read_internal (istream_, const_cast<char*> (string_.c_str()), size);
         return  istream_;
     }
     
-    static inline istream& DeSerialize (istream& istream_, char* str)
+    static inline istream& write (istream& istream_, char* str)
     {
         int size = 0;
-        DeSerialize (istream_, size);
+        write (istream_, size);
         read_internal (istream_, str, size);
         return  istream_;
     }
     
-    static inline istream& DeSerialize (istream& istream_, vector<bool>&container)
+    static inline istream& write (istream& istream_, vector<bool>&container)
     {
         if (!istream_.good() || istream_.eof())return istream_;
         
         int size;
         container.clear();
-        DeSerialize (istream_, size);
+        write (istream_, size);
         for (int i = 0; i < size; ++i)
         {
             bool t;
-            DeSerialize (istream_, t);
+            write (istream_, t);
             container.push_back (t);
         }
         assert (istream_.good());
         return istream_;
     }
     
-    static inline ostream& Serialize (ostream& ostream_, I* t_)
+    static inline ostream& read (ostream& ostream_, I* t_)
     {
         return t_->serialize (ostream_);
     }
     
-    static inline ostream& Serialize (ostream& ostream_, const std::string& string_)
+    static inline ostream& read (ostream& ostream_, const std::string& string_)
     {
         uint32_t size = string_.size();
-        Serialize (ostream_, size);
+        read (ostream_, size);
         write_internal (ostream_, string_.c_str(), string_.size());
         return ostream_;
     }
     
-    static inline ostream& Serialize (ostream& ostream_, std::string& string_)
+    static inline ostream& read (ostream& ostream_, std::string& string_)
     {
         uint32_t size = string_.size();
-        Serialize (ostream_, size);
+        read (ostream_, size);
         write_internal (ostream_, string_.c_str(), string_.size());
         return ostream_;
     }
     
-    static inline ostream& Serialize (ostream& ostream_, const char* str)
+    static inline ostream& read (ostream& ostream_, const char* str)
     {
         uint32_t size = strlen (str);
-        Serialize (ostream_, size);
+        read (ostream_, size);
         write_internal (ostream_, str, size);
         return ostream_;
     }
     
-    static inline ostream& Serialize (ostream& ostream_, vector<bool>& container)
+    static inline ostream& read (ostream& ostream_, vector<bool>& container)
     {
         uint32_t size = container.size();
-        Serialize (ostream_, size);
+        read (ostream_, size);
         
         for (auto ite : container)
         {
             bool c = ite;
-            Serialize (ostream_, c);
+            read (ostream_, c);
         }
         
         return ostream_;
@@ -174,13 +174,13 @@ static inline void ZeroMem(T& t)
 
  
 template<typename T>
-static inline istream& DeSerialize(istream& istream_, T&  t_)
+static inline istream& write(istream& istream_, T&  t_)
 {
 	return read_internal(istream_, (char*)&t_, sizeof (t_));
 }
 
 template<typename T>
-static inline ostream& Serialize(ostream& ostream_, T&  t_)
+static inline ostream& read(ostream& ostream_, T&  t_)
 {
 	int size = sizeof(t_);
 	return write_internal(ostream_, (const char*)&t_, sizeof(t_));
@@ -190,29 +190,29 @@ static inline ostream& Serialize(ostream& ostream_, T&  t_)
  
 /////////////vector//////////////////////////////////
 template <class T >
-static inline ostream& Serialize(ostream& ostream_, vector<T>& container)
+static inline ostream& read(ostream& ostream_, vector<T>& container)
 {
 	uint32_t size = container.size();
-	Serialize(ostream_, size);
+	read(ostream_, size);
 	for (auto& ite : container)
 	{
-		Serialize(ostream_, ite);
+		read(ostream_, ite);
 	}
 	return ostream_;
 }
 
 template <class T >
-static inline  istream& DeSerialize(istream& istream_, vector<T>&container)
+static inline  istream& write(istream& istream_, vector<T>&container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 
 	int size;
 	container.clear();
-	DeSerialize(istream_, size);
+	write(istream_, size);
 	for (int i = 0; i < size; ++i)
 	{
 		T t;
-		DeSerialize(istream_, t);
+		write(istream_, t);
 		container.push_back(  t);
 	}
 	assert(istream_.good());
@@ -220,7 +220,7 @@ static inline  istream& DeSerialize(istream& istream_, vector<T>&container)
 }
 
 template <class T >
-static inline ostream&  Serialize(ostream& ostream_, vector<T*>& container)
+static inline ostream&  read(ostream& ostream_, vector<T*>& container)
 {
 
 	uint32_t size = container.size();
@@ -233,15 +233,15 @@ static inline ostream&  Serialize(ostream& ostream_, vector<T*>& container)
 		if ((*ite) != NULL)
 		{
 			bool  notNULL = true;
-			Serialize(ostream_, notNULL);
+			read(ostream_, notNULL);
  
 			I* i = dynamic_cast<I*>(*ite);
-			Serialize(ostream_, i);
+			read(ostream_, i);
 		}
 		else
 		{
 			bool  notNULL = false;
-			Serialize(ostream_, notNULL);
+			read(ostream_, notNULL);
 		}
 		index++;
 	}
@@ -249,23 +249,23 @@ static inline ostream&  Serialize(ostream& ostream_, vector<T*>& container)
 }
 
 template <class T >
-static inline  istream& DeSerialize(istream& istream_, vector<T*>& container)
+static inline  istream& write(istream& istream_, vector<T*>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
 	container.clear();
 
-	DeSerialize(istream_, size);
+	write(istream_, size);
 	container.resize(size);
 	for (int i = 0; i < size; ++i)
 	{
 		bool  notNULL = false;
-		DeSerialize(istream_, notNULL);
+		write(istream_, notNULL);
 
 		if (notNULL)
 		{
 			T* object = new T;
-			DeSerialize(istream_, dynamic_cast<I*>(object));
+			write(istream_, dynamic_cast<I*>(object));
 			container[i] = object;
 		}
 		else
@@ -280,16 +280,16 @@ static inline  istream& DeSerialize(istream& istream_, vector<T*>& container)
 ////////////////map/////////////////////
 
 template <class K, class V>
-static inline ostream&  Serialize(ostream& ostream_, map<K, V>& container)
+static inline ostream&  read(ostream& ostream_, map<K, V>& container)
 {
 
 	uint32_t size = container.size();
-	Serialize(ostream_, size);
+	read(ostream_, size);
 
 	for (auto p : container)
 	{
-		Serialize(ostream_, p.first);
-		Serialize(ostream_, p.second);
+		read(ostream_, p.first);
+		read(ostream_, p.second);
 
 
 	}
@@ -297,20 +297,20 @@ static inline ostream&  Serialize(ostream& ostream_, map<K, V>& container)
 }
 
 template <class K, class V>
-static inline  istream& DeSerialize(istream& istream_, map<K, V>& container)
+static inline  istream& write(istream& istream_, map<K, V>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
 	container.clear();
-	DeSerialize(istream_, size);
+	write(istream_, size);
 
 	for (int i = 0; i < size; ++i)
 	{
 		K key;
 		V value;
-		DeSerialize(istream_, key);
+		write(istream_, key);
 
-		DeSerialize(istream_, value);
+		write(istream_, value);
 		container[key] = value;
 
 	}
@@ -319,27 +319,27 @@ static inline  istream& DeSerialize(istream& istream_, map<K, V>& container)
 
 
 template <class K, class V>
-static inline ostream&  Serialize(ostream& ostream_, map<K, V*>& container)
+static inline ostream&  read(ostream& ostream_, map<K, V*>& container)
 {
 
 	uint32_t size = container.size();
-	Serialize(ostream_, size);
+	read(ostream_, size);
 	int index = 0;
 	for (auto p : container)
 	{
-		Serialize(ostream_, p.first);
+		read(ostream_, p.first);
 
 		if ((p.second) != NULL)
 		{
 			bool notNULL = true;
-			Serialize(ostream_, notNULL);
+			read(ostream_, notNULL);
 			I* i = dynamic_cast<I*>(p.second);
-			Serialize(ostream_, i);
+			read(ostream_, i);
 		}
 		else
 		{
 			bool notNULL = false;
-			Serialize(ostream_, notNULL);
+			read(ostream_, notNULL);
 		}
 
 
@@ -349,23 +349,23 @@ static inline ostream&  Serialize(ostream& ostream_, map<K, V*>& container)
 }
 
 template <class K, class V>
-static inline  istream& DeSerialize(istream& istream_, map<K, V*>& container)
+static inline  istream& write(istream& istream_, map<K, V*>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
 	container.clear();
-	DeSerialize(istream_, size);
+	write(istream_, size);
 
 	for (int i = 0; i < size; ++i)
 	{
 		K key;
-		DeSerialize(istream_, key);
+		write(istream_, key);
 		bool  notNULL;
-		DeSerialize(istream_, notNULL);
+		write(istream_, notNULL);
 		if (notNULL)
 		{
 			V* object = new V;
-			DeSerialize(istream_, dynamic_cast<I*>(object));
+			write(istream_, dynamic_cast<I*>(object));
 			container[key] = (V*)object;
 		}
 		else
@@ -380,29 +380,29 @@ static inline  istream& DeSerialize(istream& istream_, map<K, V*>& container)
 ////////////////set/////////////////////
 
 template <class T >
-static inline ostream& Serialize(ostream& ostream_, set<T>& container)
+static inline ostream& read(ostream& ostream_, set<T>& container)
 {
 	uint32_t size = container.size();
-	Serialize(ostream_, size);
+	read(ostream_, size);
 	for (auto& ite : container)
 	{
-		Serialize(ostream_, ite);
+		read(ostream_, ite);
 	}
 	return ostream_;
 }
 
 template <class T >
-static inline  istream& DeSerialize(istream& istream_, set<T>&container)
+static inline  istream& write(istream& istream_, set<T>&container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 
 	int size;
 	container.clear();
-	DeSerialize(istream_, size);
+	write(istream_, size);
 	for (int i = 0; i < size; ++i)
 	{
 		T t;
-		DeSerialize(istream_, t);
+		write(istream_, t);
 		container.insert(t);
 	}
 	assert(istream_.good());
@@ -410,25 +410,25 @@ static inline  istream& DeSerialize(istream& istream_, set<T>&container)
 }
 
 template <class T >
-static inline ostream&  Serialize(ostream& ostream_, set<T*>& container)
+static inline ostream&  read(ostream& ostream_, set<T*>& container)
 {
 
 	uint32_t size = container.size();
-	Serialize(ostream_, size);
+	read(ostream_, size);
 
 	for (auto ite = container.begin(); ite != container.end(); ite++)
 	{
 		if ((*ite) != NULL)
 		{
 			bool noNULL = true;
-			Serialize(ostream_, noNULL);
+			read(ostream_, noNULL);
 			I* i = dynamic_cast<I*>(*ite);
-			Serialize(ostream_, i);
+			read(ostream_, i);
 		}
 		else
 		{
 			bool noNULL = false;
-			Serialize(ostream_, noNULL);
+			read(ostream_, noNULL);
 		}
 
 	}
@@ -436,22 +436,22 @@ static inline ostream&  Serialize(ostream& ostream_, set<T*>& container)
 }
 
 template <class T >
-static inline  istream& DeSerialize(istream& istream_, set<T*>& container)
+static inline  istream& write(istream& istream_, set<T*>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
 	container.clear();
 
-	DeSerialize(istream_, size);
+	write(istream_, size);
 	container.resize(size);
 	for (int i = 0; i < size; ++i)
 	{
 		bool notNULL = false;
-		DeSerialize(istream_, notNULL);
+		write(istream_, notNULL);
 		if (notNULL)
 		{
 			T* object = new T;
-			DeSerialize(istream_, dynamic_cast<I*>(object));
+			write(istream_, dynamic_cast<I*>(object));
 			container.insert(object);
 		}
 		else
@@ -467,29 +467,29 @@ static inline  istream& DeSerialize(istream& istream_, set<T*>& container)
 ////////////////list/////////////////////
 
 template <class T >
-static inline ostream& Serialize(ostream& ostream_, list<T>& container)
+static inline ostream& read(ostream& ostream_, list<T>& container)
 {
 	uint32_t size = container.size();
-	Serialize(ostream_, size);
+	read(ostream_, size);
 	for (auto& ite : container)
 	{
-		Serialize(ostream_, ite);
+		read(ostream_, ite);
 	}
 	return ostream_;
 }
 
 template <class T >
-static inline  istream& DeSerialize(istream& istream_, list<T>&container)
+static inline  istream& write(istream& istream_, list<T>&container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 
 	int size;
 	container.clear();
-	DeSerialize(istream_, size);
+	write(istream_, size);
 	for (int i = 0; i < size; ++i)
 	{
 		T t;
-		DeSerialize(istream_, t);
+		write(istream_, t);
 		container.push_back(t);
 	}
 	assert(istream_.good());
@@ -497,25 +497,25 @@ static inline  istream& DeSerialize(istream& istream_, list<T>&container)
 }
 
 template <class T >
-static inline ostream&  Serialize(ostream& ostream_, list<T*>& container)
+static inline ostream&  read(ostream& ostream_, list<T*>& container)
 {
 
 	uint32_t size = container.size();
-	Serialize(ostream_, size);
+	read(ostream_, size);
 
 	for (auto ite = container.begin(); ite != container.end(); ite++)
 	{
 		if ((*ite) != NULL)
 		{
 			bool noNULL = true;
-			Serialize(ostream_, noNULL);
+			read(ostream_, noNULL);
 			I* i = dynamic_cast<I*>(*ite);
-			Serialize(ostream_, i);
+			read(ostream_, i);
 		}
 		else
 		{
 			bool noNULL = false;
-			Serialize(ostream_, noNULL);
+			read(ostream_, noNULL);
 		}
 
 	}
@@ -525,22 +525,22 @@ static inline ostream&  Serialize(ostream& ostream_, list<T*>& container)
 
 
 template <class T >
-static inline  istream& DeSerialize(istream& istream_, list<T*>& container)
+static inline  istream& write(istream& istream_, list<T*>& container)
 {
 	if (!istream_.good() || istream_.eof())return istream_;
 	int size;
 	container.clear();
 
-	DeSerialize(istream_, size);
+	write(istream_, size);
 
 	for (int i = 0; i < size; ++i)
 	{
 		bool notNULL = false;
-		DeSerialize(istream_, notNULL);
+		write(istream_, notNULL);
 		if (notNULL)
 		{
 			T* object = new T;
-			DeSerialize(istream_, dynamic_cast<I*>(object));
+			write(istream_, dynamic_cast<I*>(object));
 			container.push_back(object);
 		}
 		else
