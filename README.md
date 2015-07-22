@@ -1,4 +1,4 @@
-#A lite serialization solution
+#A lite serialization solution(Only Head file needed)
 there are several lib out there support serialization,like protobuffer,flatbuffers,capnproto.
 Need schema file for generating source files, which is cool between peers. 
 but that is too heavy for me. so I wrote this lite version.only support c++. 
