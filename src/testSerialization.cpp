@@ -19,8 +19,8 @@ return o;
 };
  
 #include "core/serialization.h"
-#include "core/ISerializable.h"
-class Obj :public  ISerializable
+#include "core/I.h"
+class Obj :public  serialize::I
 {
 
 public:

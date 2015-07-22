@@ -11,8 +11,7 @@
 #include <iostream>
 #include <set>
 #include <list>
- 
-#include "ISerializable.h"
+
 using namespace std;
 
 
@@ -20,6 +19,15 @@ using namespace std;
 class serialize
 {
 public:
+    class I
+    {
+    public:
+        
+        virtual std::ostream& serialize( std::ostream& ostream_) = 0;
+        virtual std::istream& deSerialize(std::istream& istream_) = 0;
+        
+    };
+
     static inline bool LE()
     {
         
@@ -74,7 +82,7 @@ public:
         return  ostream_;
     }
     
-    static inline istream& DeSerialize (istream& istream_, ISerializable* t_)
+    static inline istream& DeSerialize (istream& istream_, I* t_)
     {
         return t_->deSerialize (istream_);
     }
@@ -113,7 +121,7 @@ public:
         return istream_;
     }
     
-    static inline ostream& Serialize (ostream& ostream_, ISerializable* t_)
+    static inline ostream& Serialize (ostream& ostream_, I* t_)
     {
         return t_->serialize (ostream_);
     }
@@ -168,10 +176,6 @@ static inline void ZeroMem(T& t)
 template<typename T>
 static inline istream& DeSerialize(istream& istream_, T&  t_)
 {
-//    ISerializable* i=dynamic_cast<ISerializable*>(&t_);
-//    if(i)
-//       return  DeSerialize(istream_,i);
-//       else
 	return read_internal(istream_, (char*)&t_, sizeof (t_));
 }
 
@@ -231,7 +235,7 @@ static inline ostream&  Serialize(ostream& ostream_, vector<T*>& container)
 			bool  notNULL = true;
 			Serialize(ostream_, notNULL);
  
-			ISerializable* i = dynamic_cast<ISerializable*>(*ite);
+			I* i = dynamic_cast<I*>(*ite);
 			Serialize(ostream_, i);
 		}
 		else
@@ -261,7 +265,7 @@ static inline  istream& DeSerialize(istream& istream_, vector<T*>& container)
 		if (notNULL)
 		{
 			T* object = new T;
-			DeSerialize(istream_, dynamic_cast<ISerializable*>(object));
+			DeSerialize(istream_, dynamic_cast<I*>(object));
 			container[i] = object;
 		}
 		else
@@ -329,7 +333,7 @@ static inline ostream&  Serialize(ostream& ostream_, map<K, V*>& container)
 		{
 			bool notNULL = true;
 			Serialize(ostream_, notNULL);
-			ISerializable* i = dynamic_cast<ISerializable*>(p.second);
+			I* i = dynamic_cast<I*>(p.second);
 			Serialize(ostream_, i);
 		}
 		else
@@ -361,7 +365,7 @@ static inline  istream& DeSerialize(istream& istream_, map<K, V*>& container)
 		if (notNULL)
 		{
 			V* object = new V;
-			DeSerialize(istream_, dynamic_cast<ISerializable*>(object));
+			DeSerialize(istream_, dynamic_cast<I*>(object));
 			container[key] = (V*)object;
 		}
 		else
@@ -418,7 +422,7 @@ static inline ostream&  Serialize(ostream& ostream_, set<T*>& container)
 		{
 			bool noNULL = true;
 			Serialize(ostream_, noNULL);
-			ISerializable* i = dynamic_cast<ISerializable*>(*ite);
+			I* i = dynamic_cast<I*>(*ite);
 			Serialize(ostream_, i);
 		}
 		else
@@ -447,7 +451,7 @@ static inline  istream& DeSerialize(istream& istream_, set<T*>& container)
 		if (notNULL)
 		{
 			T* object = new T;
-			DeSerialize(istream_, dynamic_cast<ISerializable*>(object));
+			DeSerialize(istream_, dynamic_cast<I*>(object));
 			container.insert(object);
 		}
 		else
@@ -505,7 +509,7 @@ static inline ostream&  Serialize(ostream& ostream_, list<T*>& container)
 		{
 			bool noNULL = true;
 			Serialize(ostream_, noNULL);
-			ISerializable* i = dynamic_cast<ISerializable*>(*ite);
+			I* i = dynamic_cast<I*>(*ite);
 			Serialize(ostream_, i);
 		}
 		else
@@ -536,7 +540,7 @@ static inline  istream& DeSerialize(istream& istream_, list<T*>& container)
 		if (notNULL)
 		{
 			T* object = new T;
-			DeSerialize(istream_, dynamic_cast<ISerializable*>(object));
+			DeSerialize(istream_, dynamic_cast<I*>(object));
 			container.push_back(object);
 		}
 		else

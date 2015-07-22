@@ -13,7 +13,7 @@ If your just want to serialize & deserialize data on the same machine. I think i
 * primitives(int,double,long,...)
 * nesting container support
 ```cpp
-Obj : implements iSerializable interface
+Obj : implements serialize:I interface
 vector<map<int, Obj*> >  
 vector<vector<string> >  
 vector<list<string> >  
