@@ -6,7 +6,10 @@ but that is too heavy for me. so I wrote this lite version.only support c++.
 If your just want to serialize & deserialize data on the same machine. I think it is a  good choice. simple as it is , hack whatever u want.
 
 #Only Head file needed
-src/core/serialization.h ,that`s it!
+```cpp
+src/core/serialization.h 
+```
+that`s it!You are set to go!	
 
 #support 
 * vector
