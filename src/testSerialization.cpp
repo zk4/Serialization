@@ -379,6 +379,32 @@ int main( )
         cout<<"vector<Obj>: pass\n";
         
     }
+    {
+        
+    struct AAA
+    {
+    public:
+        void hello(){
+            printf("s");
+        }
+        
+        int a,b,c;
+    };
+     
+        AAA a={1,2,3};
+        ofstream file(buffer_txt, std::ios::out | std::ios::binary | std::ios::trunc);
+        serialize::write(file, a);
+        file.flush();
+        file.close();
+        
+        AAA  a2;
+        ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
+        serialize::read(file2, a2);
+        getchar();
+    }
+    
+    
+    
        
 	 
 	return 0;
