@@ -182,10 +182,12 @@ static inline istream& read(istream& istream_, T&  t_)
     {
     
       if(std::is_trivial<T>::value)
-            read_internal(istream_, (char*)&t_, sizeof(t_));
+           return  read_internal(istream_, (char*)&t_, sizeof(t_));
         else
              return  read(istream_, (serialize::I*)&t_);
     }
+    assert(0);
+    return istream_;
 }
 
 template<typename T>
