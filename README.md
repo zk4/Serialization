@@ -18,16 +18,13 @@ vector<map<int, Obj*> >
 vector<vector<string> >  
 vector<list<string> >  
 vector<customer_struct>
+vector<Obj> 
 vector<string>  
 ```
 * endian auto conversion  
   no need to worry about endian problem.all data is writed in little endian.
 
 
-#not support 
-```cpp
-vector<Obj>   //not support non-pointer Obj,and I don`t think that`s a good idea though :)
-```
 use char instead bool in STL
 [why](http://stackoverflow.com/questions/15809157/why-is-the-size-of-stdvectorbool-16-byte)
 
