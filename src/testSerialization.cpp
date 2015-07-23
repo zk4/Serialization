@@ -316,11 +316,6 @@ int main( )
 		testMapPrimtives(m2);
 	}
 
-//	{
-//		
-//		map<int, ss>  m2 = { { 1, {1,2} }, { 2, {3,4}} };
-//		testMapPrimtives(m2);
-//	}
 
 	{
 		set<int> sets = { 1, 2, 3, 4   };
@@ -400,6 +395,7 @@ int main( )
         AAA  a2;
         ifstream  file2(buffer_txt, std::ios::in | std::ios::binary);
         serialize::read(file2, a2);
+        //be careful when you do this! because the memory layout is just right only if you don`t use polymorphism! So , the best practice would be: Implement serialize::I :)
         getchar();
     }
     
