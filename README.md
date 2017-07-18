@@ -1,11 +1,11 @@
 
-#A lite serialization solution
+# A lite serialization solution
 there are several lib out there support serialization,like protobuffer,flatbuffers,capnproto.
 Need schema file for generating source files, which is cool between peers. 
 but that is too heavy for me. so I wrote this lite version.only support c++. 
 If your just want to serialize & deserialize data on the same machine. I think it is a  good choice. simple as it is , hack whatever u want.
 
-#Only Head file needed
+# Only Head file needed
 ```cpp
 src/core/serialization.h 
 ```
@@ -36,7 +36,7 @@ use char instead bool in STL
 [why](http://stackoverflow.com/questions/15809157/why-is-the-size-of-stdvectorbool-16-byte)
 
 
-#build
+#  build
 you can build this project by CMake. or  just import **serialization.h** into your project.
 
 cmake build process:
@@ -49,7 +49,7 @@ cmake build process:
 if it doesn`t work. set compile flags to c++11
 
 
-#demo
+# demo
 check testSerialization.cpp 
  
  
