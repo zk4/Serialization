@@ -12,6 +12,7 @@
 #include <set>
 #include <list>
 #include <type_traits>
+#include <cstring>
 using namespace std;
 
 
